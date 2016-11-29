@@ -4,11 +4,11 @@ header('Content-Type: text/html; charset=utf-8'); //if this shows error then rem
 include'fb.php';
 
 // $facebook_id = '100013243178052';
-$url_user = 'patcharaployGoh';
+$url_user = 'chayapon.saepung';
 $is_last_page = false;
 $start_index = 1;
-$categories_likes = array("129476497102318");
-// $categories_likes = array("1002","1003","13001","13002","13005","13006","164382953603504","129476497102318","162363193777361","683846581632453","484295988319366","462131360547476","125046477654948","9999");
+// $categories_likes = array("129476497102318");
+$categories_likes = array("1002","1003","13001","13002","13005","13006","164382953603504","129476497102318","162363193777361","683846581632453","484295988319366","462131360547476","125046477654948","9999");
 $categories_name = array("Activity","Interested","Music","Book","Movie","TV Show","Game","Favorite Team","Favorite Player","Website","Cloting","Restaurant","Other","Other(2)");
 $count_like_pages = 0;
 $count_category_pages = 0;
@@ -37,7 +37,7 @@ for ($i = 0; $i <= sizeof($categories_likes)-1; $i++) {
 				goto end;
 			}
 
-			if (strpos($pages_ids, 'n=profile_view') == true && strpos($pages_ids, ';amp;origin=profile_view') == true && strlen($pages_id) > 5) { //Fix some error page id
+			if (strlen($pages_id) > 5 && ord($pages_id) < 58) { //Fix some error page id
 				//Print page id that this users likes
 				$count_category_pages++;
 				$count_like_pages += 1;  
@@ -59,9 +59,9 @@ for ($i = 0; $i <= sizeof($categories_likes)-1; $i++) {
 			$count_category_pages++;
 			$count_like_pages += 1;
 			echo $pages_id;
-			echo '----------> [ ' . $count_category_pages . ' ] Pages <br>';
+			echo '----------> [ ' . $count_category_pages . ' ] Pages <br><br>';
 		} else {
-			echo '----------> not have pages in this category <br>';
+			echo '----------> not have pages in this category <br><br>';
 		}
 
 }

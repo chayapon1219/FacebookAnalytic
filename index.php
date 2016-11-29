@@ -4,9 +4,11 @@ header('Content-Type: text/html; charset=utf-8'); //if this shows error then rem
 include'fb.php';
 
 // $facebook_id = '100013243178052';
-$url_user = 'patcharaployGoh';
+$url_user = 'chayapon.saepung';
 $is_last_page = false;
 $start_index = 1;
+$result = array();
+
 // $categories_likes = array("129476497102318");
 $categories_likes = array("1002","1003","13001","13002","13005","13006","164382953603504","129476497102318","162363193777361","683846581632453","484295988319366","462131360547476","125046477654948","9999");
 $categories_name = array("Activity","Interested","Music","Book","Movie","TV Show","Game","Favorite Team","Favorite Player","Website","Cloting","Restaurant","Other","Other(2)");
@@ -30,7 +32,7 @@ for ($i = 0; $i <= sizeof($categories_likes)-1; $i++) {
 
 		for($x = 0; $x <= 10; $x++) {
 			$pages_ids = substr($pages_ids, strpos($pages_ids, 'fan&amp;')+15);
-			$pages_id = substr($pages_ids, 0, strpos($pages_ids, '&amp;')).'<br>';
+			$pages_id = substr($pages_ids, 0, strpos($pages_ids, '&amp;'));
 
 			//Is the last page --> end loop
 			if(strlen($pages_id) > 30) {
@@ -41,7 +43,8 @@ for ($i = 0; $i <= sizeof($categories_likes)-1; $i++) {
 				//Print page id that this users likes
 				$count_category_pages++;
 				$count_like_pages += 1;  
-				echo $pages_id;
+				$result[$count_like_pages] = $pages_id;
+				//echo $pages_id;
 			}
 		}
 		$start_index += 11;
@@ -55,16 +58,28 @@ for ($i = 0; $i <= sizeof($categories_likes)-1; $i++) {
 		$pages_ids = $html_source;
 	 	if (strpos($pages_ids, 'fan&amp;') != null) {
 			$pages_ids = substr($pages_ids, strpos($pages_ids, 'fan&amp;')+15);
-			$pages_id = substr($pages_ids, 0, strpos($pages_ids, '&amp;')).'<br>';
+			$pages_id = substr($pages_ids, 0, strpos($pages_ids, '&amp;'));
 			$count_category_pages++;
 			$count_like_pages += 1;
-			echo $pages_id;
-			echo '----------> [ ' . $count_category_pages . ' ] Pages <br>';
+			$result[$count_like_pages] = $pages_id;
+			//echo $pages_id;
+			//echo '----------> [ ' . $count_category_pages . ' ] Pages <br><br>';
 		} else {
-			echo '----------> not have pages in this category <br>';
+			//echo '----------> not have pages in this category <br><br>';
 		}
 
 }
 
 echo '======================================================== <br>';
 echo 'This user likes  ' .$count_like_pages. '  Pages' . '<br>'. '<br>';
+echo 'This array = ' . count($result) . ' Number' ;
+
+//Change array to Json file
+$result = array_values($result);
+$result = json_encode($result);
+
+//Write files
+file_put_contents('Result'.'.json', $result);
+
+//Response
+echo '<br> Complete file';
