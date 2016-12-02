@@ -43,6 +43,12 @@ for ($i = 0; $i <= sizeof($categories_likes)-1; $i++) {
 				$count_like_pages += 1;  
 				echo $pages_id;
 			}
+
+		//Give code show intermediat
+        ob_flush();
+        flush();
+        sleep(0);
+
 		}
 		$start_index += 11;
 	 }
